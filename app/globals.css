@@ -1,26 +1,42 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #020617;
+  --foreground: #f8fafc;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
+
+.react-grid-item.react-grid-placeholder {
+  background: rgba(59, 130, 246, 0.1) !important;
+  border: 1px dashed rgba(59, 130, 246, 0.7) !important;
+  border-radius: 0.75rem;
+  opacity: 1 !important;
+}
+
+.react-grid-item > .react-resizable-handle {
+  width: 14px;
+  height: 14px;
+}
+
+.react-grid-item > .react-resizable-handle-se {
+  right: 4px;
+  bottom: 4px;
+}
+
+.react-grid-item > .react-resizable-handle-se::after {
+  right: 3px;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid rgba(148, 163, 184, 0.8);
+  border-bottom: 2px solid rgba(148, 163, 184, 0.8);
+}
+
+.react-grid-item:hover > .react-resizable-handle-se::after {
+  border-color: rgba(96, 165, 250, 1);
+}
+
