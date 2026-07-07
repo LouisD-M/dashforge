@@ -70,4 +70,35 @@ export type ListWidget = {
   }[];
 };
 
+export type DashboardDocument = {
+  dashboard: {
+    name: string;
+    source: {
+      apiUrl: string;
+      sourceData: unknown;
+      collections: {
+        id: string;
+        label: string;
+        path: string;
+        count: number;
+        fields: {
+          name: string;
+          type: string;
+          isNumeric: boolean;
+          isText: boolean;
+        }[];
+      }[];
+    };
+    widgets: DashboardWidget[];
+    layout: DashboardLayoutItem[];
+  };
+};
+export type SavedDashboard = {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  document: DashboardDocument;
+};
+
 export type DashboardWidget = KpiWidget | TableWidget | BarChartWidget | ListWidget;
