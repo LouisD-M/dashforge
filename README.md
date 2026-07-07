@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DashForge
 
-## Getting Started
+DashForge est un mini **dashboard builder** développé avec **Next.js**, **TypeScript** et **Tailwind CSS**.
 
-First, run the development server:
+L’objectif du projet est de permettre la création rapide de dashboards dynamiques à partir d’une **API REST** ou d’un **JSON brut**, sans avoir à coder manuellement chaque composant.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Fonctionnalités actuelles
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Import de données depuis une API en `GET`
+- Import de données depuis un JSON brut
+- Analyse automatique de la structure JSON
+- Détection des collections exploitables
+- Création de widgets dynamiques :
+  - KPI Card
+  - Tableau
+  - Graphique en barres
+  - Liste dynamique
+- Sélection des champs à afficher depuis l’interface
+- Canvas avec système de grille
+- Déplacement des widgets
+- Redimensionnement des widgets
+- Export JSON du dashboard généré
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack technique
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js
+- TypeScript
+- Tailwind CSS
+- React Grid Layout
+- Recharts
 
-## Learn More
+## Concept
 
-To learn more about Next.js, take a look at the following resources:
+Le fonctionnement repose sur un principe simple :
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```txt
+API / JSON brut
+↓
+Analyse automatique des données
+↓
+Détection des collections
+↓
+Choix d’un outil
+↓
+Configuration du widget
+↓
+Ajout dans le dashboard
