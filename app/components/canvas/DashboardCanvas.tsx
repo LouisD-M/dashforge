@@ -11,6 +11,7 @@ import KpiWidget from "../widgets/KpiWigets";
 import TableWidget from "../widgets/TableWidget";
 import BarChartWidget from "../widgets/BarChartWidget";
 import ListWidget from "../widgets/ListWidget";
+import PieChartWidget from "../widgets/PieChartWidget";
 
 type DashboardCanvasProps = {
   widgets: DashboardWidget[];
@@ -52,7 +53,9 @@ const GridLayout =
   GridLayoutBase as unknown as ComponentType<TypedGridLayoutProps>;
 
 const GRID_COLUMNS = 96;
-const ROW_HEIGHT = 7;
+const EMBEDDED_ROW_HEIGHT = 7;
+const MODAL_ROW_HEIGHT = 9;
+const EMBEDDED_CANVAS_HEIGHT = 560;
 
 export default function DashboardCanvas({
   widgets,
@@ -70,8 +73,11 @@ export default function DashboardCanvas({
 
   const isModal = viewMode === "modal";
 
-  const gridRows = isModal ? 220 : 80;
-  const canvasHeight = gridRows * ROW_HEIGHT;
+const rowHeight = isModal ? MODAL_ROW_HEIGHT : EMBEDDED_ROW_HEIGHT;
+const gridRows = isModal ? 100 : 80;
+const canvasHeight = isModal
+  ? "calc(100vh - 190px)"
+  : `${EMBEDDED_CANVAS_HEIGHT}px`;
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -169,7 +175,7 @@ export default function DashboardCanvas({
             layout={layout}
             cols={GRID_COLUMNS}
             maxRows={gridRows}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={rowHeight}
             width={Math.max(canvasWidth - 24, 320)}
             margin={[8, 4]}
             containerPadding={[0, 0]}
@@ -235,6 +241,19 @@ export default function DashboardCanvas({
                   </div>
                 );
               }
+
+              if (widget.type === "pie-chart") {
+  return (
+    <div key={widget.id} className="h-full">
+      <PieChartWidget
+        widget={widget}
+        isSelected={selectedWidgetId === widget.id}
+        onSelect={onSelectWidget}
+        onRemove={onRemoveWidget}
+      />
+    </div>
+  );
+}
 
               return null;
             })}

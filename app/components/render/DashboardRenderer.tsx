@@ -11,6 +11,7 @@ import KpiWidget from "../widgets/KpiWigets";
 import TableWidget from "../widgets/TableWidget";
 import BarChartWidget from "../widgets/BarChartWidget";
 import ListWidget from "../widgets/ListWidget";
+import PieChartWidget from "../widgets/PieChartWidget";
 
 type DashboardRendererProps = {
   dashboardDocument: DashboardDocument;
@@ -187,6 +188,19 @@ export default function DashboardRenderer({
                     </div>
                   );
                 }
+
+                if (widget.type === "pie-chart") {
+                return (
+                  <div key={widget.id} className="h-full">
+                    <PieChartWidget
+                      widget={widget}
+                      isSelected={false}
+                      onSelect={() => {}}
+                      onRemove={() => {}}
+                    />
+                  </div>
+                );
+              }
 
                 return null;
               })}

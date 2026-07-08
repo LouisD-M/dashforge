@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import DashboardRenderer from "../components/render/DashboardRenderer";
 import type { DashboardDocument } from "../types/dashboard";
-
+import { downloadCurrentPreviewHtml } from "../lib/previewExporter";
 const STORAGE_KEY = "dashforge-current-dashboard";
 const CHANNEL_NAME = "dashforge-dashboard-channel";
 
@@ -64,5 +64,20 @@ export default function PreviewPage() {
     );
   }
 
-  return <DashboardRenderer dashboardDocument={dashboardDocument} />;
+  return (
+  <main className="min-h-screen bg-slate-950 text-slate-100">
+    <div className="fixed right-4 top-4 z-50">
+<button
+  type="button"
+  data-export-ignore="true"
+  onClick={() => downloadCurrentPreviewHtml()}
+  className="rounded-lg border border-blue-500/40 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-200 backdrop-blur transition hover:bg-blue-500/20"
+>
+  Exporter cette preview
+</button>
+    </div>
+
+    <DashboardRenderer dashboardDocument={dashboardDocument} />
+  </main>
+);
 }

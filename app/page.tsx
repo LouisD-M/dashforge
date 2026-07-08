@@ -26,6 +26,12 @@ const STORAGE_KEY = "dashforge-current-dashboard";
 const CHANNEL_NAME = "dashforge-dashboard-channel";
 const SAVED_DASHBOARDS_KEY = "dashforge-saved-dashboards";
 
+import PieChartTool from "./components/tools/PieChartTool";
+import PieChartToolPanel from "./components/tools/PieChartToolPanel";
+import { downloadPreviewRouteHtml } from "./lib/previewExporter";
+
+
+
 export default function Home() {
   const [sourceData, setSourceData] = useState<unknown>(null);
   const [apiUrl, setApiUrl] = useState(DEFAULT_API_URL);
@@ -96,6 +102,7 @@ const addWidget = (widget: DashboardWidget) => {
     const isTable = widget.type === "table";
     const isBarChart = widget.type === "bar-chart";
      const isList = widget.type === "list";
+     const isPieChart = widget.type === "pie-chart";
 
     const newLayoutItem: DashboardLayoutItem = {
       i: widget.id,
@@ -103,18 +110,18 @@ const addWidget = (widget: DashboardWidget) => {
       y: currentLayout.length * 8,
 
       // Largeur par défaut
-      w: isKpi ? 3 : isTable ? 36 : isBarChart ? 32 : isList ? 22 :24,
+      w: isKpi ? 3 : isTable ? 36 : isBarChart ? 32 : isList ? 22 : isPieChart ? 2 : 24,
 
       // Hauteur par défaut
-      h: isKpi ? 1 : isTable ? 1 : isBarChart ? 1 : isList ? 1 : 14,
+      h: isKpi ? 1 : isTable ? 1 : isBarChart ? 1 : isList ? 1 : isPieChart ? 2 :  14,
 
       // Taille minimale
-      minW: isKpi ? 1 : isTable ? 2 : isBarChart ? 2 : isList ? 2 : 12,
-      minH: isKpi ? 1 : isTable ? 1 : isBarChart ? 2 : isList ? 2 : 8,
+      minW: isKpi ? 1 : isTable ? 2 : isBarChart ? 2 : isList ? 2 : isPieChart ? 2 :  12,
+      minH: isKpi ? 1 : isTable ? 1 : isBarChart ? 2 : isList ? 2 : isPieChart ? 2 :  8,
 
       // Taille maximale
       maxW: isKpi ? 48 : 96,
-      maxH: isKpi ? 14 : isTable ? 60 : isBarChart ? 32 : isList ? 22 : 30,
+      maxH: isKpi ? 14 : isTable ? 60 : isBarChart ? 32 : isList ? 22 : isPieChart ? 2 :  30,
     };
 
     return [...currentLayout, newLayoutItem];
@@ -197,6 +204,19 @@ const deleteSavedDashboard = (savedDashboardId: string) => {
   );
 };
 
+const openPreview = () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dashboardJson));
+  window.open("/preview", "_blank", "noopener,noreferrer");
+};
+
+const exportPreviewHtml = async () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dashboardJson));
+
+  await downloadPreviewRouteHtml(
+    `${dashboardName.trim() || "dashforge-dashboard"}.html`
+  );
+};
+
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
 <header className="flex h-16 items-center justify-between border-b border-slate-800 bg-slate-950 px-6">
@@ -230,10 +250,19 @@ const deleteSavedDashboard = (savedDashboardId: string) => {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(dashboardJson));
         window.open("/preview", "_blank", "noopener,noreferrer");
       }}
-      className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
+       className="h-10 shrink-0 rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition hover:bg-blue-500"
     >
       Ouvrir le rendu
     </button>
+
+  <button
+    type="button"
+    onClick={exportPreviewHtml}
+    className="mt-3 w-full rounded-lg border border-blue-500/40 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-200 transition hover:bg-blue-500/20"
+  >
+    Exporter le rendu HTML
+  </button>
+    
   </div>
 </header>
 
@@ -284,12 +313,20 @@ const deleteSavedDashboard = (savedDashboardId: string) => {
     onBack={() => setSelectedTool(null)}
     onAddWidget={addWidget}
   />
+  ) : selectedTool === "pie-chart" ? (
+  <PieChartToolPanel
+    collections={collections}
+    onBack={() => setSelectedTool(null)}
+    onAddWidget={addWidget}
+  />
+
 ) : (
   <div className="space-y-3">
     <KpiTool onSelectTool={setSelectedTool} />
     <TableTool onSelectTool={setSelectedTool} />
     <BarChartTool onSelectTool={setSelectedTool} />
     <ListTool onSelectTool={setSelectedTool} />
+    <PieChartTool onSelectTool={setSelectedTool} />
   </div>
 )}
         </aside>
@@ -388,11 +425,13 @@ const deleteSavedDashboard = (savedDashboardId: string) => {
 
   <JsonPreview title="JSON dashboard" data={dashboardJson} />
 
+
   <JsonPreview
     title="JSON source"
     data={sourceData ?? {}}
     maxHeightClassName="max-h-96"
   />
+  
 </aside>
       </div>
       {isCanvasModalOpen && (

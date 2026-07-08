@@ -1,4 +1,4 @@
-export type ToolType = "kpi" | "table" | "bar-chart" | "list";
+export type ToolType = "kpi" | "table" | "bar-chart" | "list" | "pie-chart";
 
 export type KpiMetric = "count" | "sum" | "average";
 
@@ -101,4 +101,17 @@ export type SavedDashboard = {
   document: DashboardDocument;
 };
 
-export type DashboardWidget = KpiWidget | TableWidget | BarChartWidget | ListWidget;
+export type PieChartWidget = {
+  id: string;
+  type: "pie-chart";
+  title: string;
+  subtitle: string;
+  collectionPath: string;
+  groupByField: string;
+  data: {
+    name: string;
+    value: number;
+  }[];
+};
+
+export type DashboardWidget = KpiWidget | TableWidget | BarChartWidget | ListWidget | PieChartWidget;
