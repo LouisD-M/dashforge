@@ -4,6 +4,10 @@ DashForge est un mini **dashboard builder** développé avec **Next.js**, **Type
 
 L’objectif du projet est de permettre la création rapide de dashboards dynamiques à partir d’une **API REST** ou d’un **JSON brut**, sans avoir à coder manuellement chaque composant.
 
+Le projet est pensé pour être **open source**, facilement récupérable, modifiable et améliorable par d’autres développeurs.
+
+---
+
 ## Fonctionnalités actuelles
 
 - Import de données depuis une API en `GET`
@@ -14,6 +18,7 @@ L’objectif du projet est de permettre la création rapide de dashboards dynami
   - KPI Card
   - Tableau
   - Graphique en barres
+  - Pie Chart
   - Liste dynamique
 - Sélection des champs à afficher depuis l’interface
 - Canvas avec système de grille
@@ -26,6 +31,9 @@ L’objectif du projet est de permettre la création rapide de dashboards dynami
 - Chargement d’un dashboard sauvegardé
 - Suppression d’un dashboard sauvegardé
 - Génération du JSON représentant le dashboard
+- Export du rendu HTML réutilisable
+
+---
 
 ## Stack technique
 
@@ -35,11 +43,15 @@ L’objectif du projet est de permettre la création rapide de dashboards dynami
 - React Grid Layout
 - Recharts
 
+---
+
 ## Librairies principales
 
 - `react-grid-layout` : gestion du canvas, drag & drop et resize des widgets
 - `react-resizable` : gestion du redimensionnement
 - `recharts` : rendu des graphiques
+
+---
 
 ## Concept
 
@@ -61,7 +73,11 @@ Ajout dans le dashboard
 Prévisualisation dynamique
 ↓
 Sauvegarde locale du dashboard
+↓
+Export du rendu
 ```
+
+---
 
 ## Pages principales
 
@@ -83,6 +99,8 @@ La page de rendu affiche le dashboard final sans les panneaux de configuration.
 
 La page de preview est synchronisée en temps réel avec le builder grâce à `localStorage` et `BroadcastChannel`.
 
+---
+
 ## Installation
 
 Installer les dépendances du projet :
@@ -102,6 +120,8 @@ Installer les types nécessaires pour TypeScript :
 ```bash
 npm install -D @types/react-grid-layout @types/react-resizable
 ```
+
+---
 
 ## Lancer le projet
 
@@ -131,6 +151,8 @@ http://192.168.15.40:5004
 
 > L’adresse IP `192.168.15.40` correspond à l’IP réseau de la machine de développement. Elle peut changer selon le poste ou le réseau utilisé.
 
+---
+
 ## Exemples d’API de test
 
 ```txt
@@ -148,6 +170,8 @@ https://dummyjson.com/recipes
 ```txt
 https://pokeapi.co/api/v2/pokemon?limit=20
 ```
+
+---
 
 ## Widgets disponibles
 
@@ -169,9 +193,22 @@ Permet d’afficher une collection sous forme de tableau dynamique avec choix de
 
 Permet de générer un graphique simple à partir d’un champ de libellé et d’un champ numérique.
 
+### Pie Chart
+
+Permet de générer une répartition visuelle à partir d’un champ de regroupement.
+
+Exemples :
+
+- Produits par catégorie
+- Tickets par statut
+- Utilisateurs par ville
+- Commandes par type
+
 ### Liste dynamique
 
 Permet d’afficher une collection sous forme de liste compacte avec un champ principal et un champ secondaire.
+
+---
 
 ## Sauvegarde
 
@@ -187,6 +224,53 @@ Chaque dashboard sauvegardé conserve :
 
 La sauvegarde est actuellement basée sur le `localStorage` du navigateur.
 
+---
+
+## Export
+
+DashForge permet d’exporter le rendu final du dashboard en HTML.
+
+L’objectif est de pouvoir générer une version réutilisable du dashboard, basée sur la preview, sans garder les panneaux de configuration du builder.
+
+---
+
+## Exemple d’utilisation
+
+Un développeur travaille sur une API contenant des tickets, des commandes, des produits ou des utilisateurs.
+
+Avec DashForge, il peut :
+
+1. charger l’URL de son API ;
+2. laisser l’application détecter les collections disponibles ;
+3. créer rapidement des KPI, tableaux, graphiques ou listes ;
+4. organiser les widgets dans le canvas ;
+5. sauvegarder son dashboard ;
+6. prévisualiser le rendu final ;
+7. exporter une première version HTML exploitable.
+
+L’objectif n’est pas de remplacer des outils comme Power BI, Grafana, Metabase ou Retool, mais de proposer une base plus légère, orientée développeurs, pour prototyper rapidement des dashboards depuis des données brutes.
+
+---
+
+## Contributions
+
+Les contributions sont les bienvenues.
+
+Vous pouvez proposer :
+
+- de nouveaux widgets ;
+- des améliorations UI/UX ;
+- des corrections de bugs ;
+- des optimisations du rendu exporté ;
+- des idées de templates ;
+- de nouvelles sources de données ;
+- une meilleure gestion responsive ;
+- des améliorations de l’architecture.
+
+N’hésitez pas à ouvrir une issue ou une pull request.
+
+---
+
 ## Roadmap
 
 - Ajouter une vraie persistance en base de données
@@ -198,6 +282,8 @@ La sauvegarde est actuellement basée sur le `localStorage` du navigateur.
 - Préparer un export/import complet des dashboards
 - Ajouter un mode lecture seule partageable
 - Améliorer le responsive mobile/tablette
+
+---
 
 ## Objectif du projet
 
